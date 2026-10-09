@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="小橘怪">
+<meta name="theme-color" content="#e0794f">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACIklEQVR4nO3cMU5CQRRAUTFsgz3YuxfXQG9N7xrci70FO7BiESTWJl4T5DvMN+f0MJNw84qfx9+cT8c7+M79rS/AvMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkLbDTvp4eR521v+22x/GHGRykMRBEgdJHCRxkMRBEgdJHCRxkMY9Ib3G4+v7rz/79vSw2D2+mvNWCzI5SOIgiYMkDpI4SOIgiYMkDpI4SJc9IbUHOoNrfoWL9k9NDpI4SOIgiYMkDpI4SOIgiYMkDtI6dkjn3Lic81YLMjlI4iCJgyQOkjhI4iCJgyQOkjhIm/PpOOYk+6dL8R5Sbk8cJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQxEESB0kcJHGQ1vEv+5+3Jv/uvZxzfvMwJgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMRBEgdJHCRxkMa9h5TVMTlI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhI4iCJgyQOkjhInwHpJjJ+229gAAAAAElFTkSuQmCC">
+<title>像素小橘怪养成屋练习版</title>
+<style>
+:root{--bg:#fbf3ea;--fg:#3a2c26;--mut:#8b7a70;--card:#fff;--line:#ecd9c8;--acc:#e0794f;--stage1:#fde9d4;--stage2:#f7d3b4;--floor:#e9bf98;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1714;--fg:#f3e7dc;--mut:#a89588;--card:#2a211c;--line:#40332b;--stage1:#3a2a21;--stage2:#4a3426;--floor:#5a4130}}
+:root[data-theme="dark"]{--bg:#1d1714;--fg:#f3e7dc;--mut:#a89588;--card:#2a211c;--line:#40332b;--stage1:#3a2a21;--stage2:#4a3426;--floor:#5a4130}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+main{max-width:520px;margin:0 auto;padding:14px 12px 30px}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.top input{flex:1;min-width:0;font-size:18px;font-weight:bold;color:var(--fg);background:transparent;border:0;border-bottom:2px dashed var(--line);padding:4px}
+.coin{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px 12px;font-weight:bold;white-space:nowrap}
+.stage{position:relative;margin:10px 0;border-radius:18px;border:1px solid var(--line);background:linear-gradient(var(--stage1),var(--stage2));overflow:hidden}
+.stage:after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:var(--floor)}
+.stage svg{position:relative;z-index:1;display:block;width:100%;height:300px;cursor:pointer;shape-rendering:crispEdges}
+.bub{position:absolute;z-index:2;top:10px;left:50%;transform:translateX(-50%);background:var(--card);color:var(--fg);border:2px solid var(--fg);border-radius:12px;padding:6px 12px;font-size:14px;opacity:0;transition:opacity .3s;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis}
+.bub.on{opacity:1}
+.bars{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin-bottom:10px;font-size:13px}
+.bar{height:9px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;border-radius:6px;transition:width .4s}
+.sec{margin:12px 0 6px;font-size:13px;color:var(--mut);font-weight:bold}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+button{font:inherit;font-size:14px;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer}
+button:active{transform:scale(.96)}
+button.pri{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:bold}
+button.on{outline:2px solid var(--acc)}
+.pet{transform-box:fill-box;transform-origin:50% 100%}
+.idle{animation:bob 1.8s ease-in-out infinite}
+.jump{animation:jump .7s ease-in-out infinite}
+.type{animation:shake .14s steps(2) infinite}
+.sleep{animation:breath 2.4s ease-in-out infinite}
+.steam{animation:steam 1.6s ease-in-out infinite}
+.zz{animation:steam 2.2s ease-in-out infinite;font:bold 1.6px monospace;fill:var(--fg)}
+@keyframes bob{50%{transform:translateY(-.3px)}}
+@keyframes jump{0%,100%{transform:translateY(0) scale(1.06,.9)}45%{transform:translateY(-3.4px) scale(.95,1.07)}}
+@keyframes shake{50%{transform:translateX(.1px)}}
+@keyframes breath{50%{transform:scale(1.02,1.03)}}
+@keyframes steam{0%{opacity:0;transform:translateY(.6px)}50%{opacity:1}100%{opacity:0;transform:translateY(-1px)}}
+.small{font-size:12px;color:var(--mut);margin-top:14px;text-align:center}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><input id="nm" maxlength="8" aria-label="宠物名字"><div class="coin">🪙 <span id="coin"></span></div></div>
+<div class="stage"><div class="bub" id="bub"></div><svg id="sv" viewBox="-3 -9 22 19" aria-label="像素小怪，点一点摸摸它"></svg></div>
+<div class="bars" id="bars"></div>
+<div class="sec">照顾它</div>
+<div class="row">
+<button class="pri" data-a="feed">🍪 喂饼干</button><button class="pri" data-a="play">🎾 玩耍</button><button class="pri" data-a="sleep">💤 睡觉</button>
+<button class="pri" data-a="work">💻 打电脑 +🪙</button><button class="pri" data-a="coffee">☕ 喝咖啡 -3🪙</button>
+</div>
+<div class="sec">表情</div>
+<div class="row" id="emo"></div>
+<div class="sec">衣橱（用金币购买，再点一下穿上/脱下）</div>
+<div class="row" id="shop"></div>
+<div class="small">点点小怪可以摸摸它 · 进度会自动保存在这个浏览器里<br><button id="rs" style="margin-top:8px;font-size:12px">重置进度</button></div>
+</main>
+<script>
+const B="#e0794f",K="#1b1b1f";
+const R=(x,y,w,h,c)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`;
+const EYES={
+n:R(4,1,2,2,K)+R(9,1,2,2,K),
+h:R(3,2,1,1,K)+R(4,1,1,1,K)+R(5,2,1,1,K)+R(9,2,1,1,K)+R(10,1,1,1,K)+R(11,2,1,1,K),
+c:R(3,2,3,1,K)+R(9,2,3,1,K),
+w:R(4,1,2,3,K)+R(9,1,2,3,K),
+t:R(4,2,2,2,K)+R(9,2,2,2,K)+R(4,4,1,2,"#8ecaf0")+R(10,4,1,2,"#8ecaf0"),
+l:["#ff4f7b"].map(p=>R(3,1,1,1,p)+R(5,1,1,1,p)+R(3,2,3,1,p)+R(4,3,1,1,p)+R(9,1,1,1,p)+R(11,1,1,1,p)+R(9,2,3,1,p)+R(10,3,1,1,p))[0]
+};
+const MOUTH={'':'',s:R(5,3,1,1,K)+R(6,4,3,1,K)+R(9,3,1,1,K),o:R(6,3,3,2,K)+R(7,4,1,1,"#ee7788"),f:R(6,3,3,1,K)+R(5,4,1,1,K)+R(9,4,1,1,K),z:R(7,4,1,1,K)};
+const EX={normal:['n',''],happy:['h','s'],sleep:['c','z'],wow:['w','o'],sad:['t','f'],love:['l','s'],blink:['c','']};
+const DRAW={
+tophat:R(3,-1,9,1,"#222")+R(4,-5,7,4,"#222")+R(4,-2,7,1,"#c0392b"),
+party:R(7,-5,1,1,"#ffe066")+R(7,-4,1,1,"#ff7eb6")+R(6,-3,3,1,"#ff7eb6")+R(5,-2,5,1,"#ff7eb6")+R(4,-1,7,1,"#ff7eb6")+R(6,-3,1,1,"#fff")+R(8,-2,1,1,"#fff")+R(5,-1,1,1,"#fff"),
+phones:R(3,-2,9,1,"#2f5fb3")+R(2,-1,1,2,"#2f5fb3")+R(12,-1,1,2,"#2f5fb3")+R(1,1,2,4,"#2f5fb3")+R(12,1,2,4,"#2f5fb3")+R(1,2,1,2,"#5b8fe0")+R(13,2,1,2,"#5b8fe0"),
+shades:R(3,1,4,2,"#111")+R(8,1,4,2,"#111")+R(7,1,1,1,"#111")+R(3,1,1,1,"#555")+R(8,1,1,1,"#555"),
+balloon:R(14,-4,1,6,"#cfc6bd")+R(14,-8,2,1,"#e5484d")+R(13,-7,4,2,"#e5484d")+R(14,-5,2,1,"#e5484d")+R(14,-7,1,1,"#ff9a9e"),
+lolli:R(0,-1,1,4,"#f5e6c8")+R(-1,-5,3,1,"#ff5fa2")+R(-2,-4,5,2,"#ff5fa2")+R(-1,-2,3,1,"#ff5fa2")+R(0,-4,1,1,"#fff")+R(1,-3,1,1,"#fff")
+};
+const ITEMS=[
+{id:'tophat',n:'礼帽',s:'head',p:25,i:'🎩'},{id:'party',n:'派对帽',s:'head',p:20,i:'🥳'},{id:'phones',n:'耳机',s:'head',p:40,i:'🎧'},
+{id:'shades',n:'墨镜',s:'eye',p:30,i:'🕶️'},{id:'balloon',n:'气球',s:'hold',p:15,i:'🎈'},{id:'lolli',n:'棒棒糖',s:'hold',p:10,i:'🍭'}];
+const EMOS=[['happy','😊 开心'],['sleep','😴 困困'],['wow','😲 惊讶'],['sad','😢 难过'],['love','😍 爱心'],['normal','😐 平静']];
+const DEF={name:'小克',hun:80,mood:80,en:80,xp:0,coins:30,own:{},wear:{head:'',eye:'',hold:''}};
+let S=JSON.parse(JSON.stringify(DEF)),act='idle',emo=null,blink=false,actT,bubT,rsArm=false;
+try{const v=localStorage.getItem('pixpet1');if(v)S=Object.assign(S,JSON.parse(v))}catch(e){}
+const $=id=>document.getElementById(id);
+const cl=v=>Math.max(0,Math.min(100,v));
+const save=()=>{try{localStorage.setItem('pixpet1',JSON.stringify(S))}catch(e){}};
+const lv=()=>Math.floor(S.xp/20)+1;
+function face(){
+  if(act==='sleep')return'sleep';
+  if(emo&&Date.now()<emo.u)return emo.k;
+  if(act==='jump'||act==='coffee')return'happy';
+  if(S.hun<25||S.mood<30)return'sad';
+  if(S.en<20)return'sleep';
+  if(S.mood>=75)return'happy';
+  return blink?'blink':'normal';
+}
+function draw(){
+  const [e,m]=EX[face()];
+  let g=R(2,0,11,6,B)+R(0,2,2,2,B)+R(13,2,2,2,B)+R(2,6,2,2,B)+R(5,6,2,2,B)+R(8,6,2,2,B)+R(11,6,2,2,B);
+  g+=EYES[e];
+  const w=S.wear;
+  if(w.eye)g+=DRAW[w.eye];
+  if(w.head)g+=DRAW[w.head];
+  if(act==='type'){
+    g+=R(3,3,9,4,"#c9ced8")+R(3,3,9,1,"#dfe3ea")+R(7,4,2,2,B)+R(1,7,13,1,"#aeb4c0");
+  }else if(act==='coffee'){
+    g+=R(13,0,4,4,"#fff")+R(13,0,4,1,"#6b3e26")+R(17,1,1,2,"#fff")+`<g class="steam">${R(14,-2,1,1,"#fff")}${R(16,-3,1,1,"#fff")}</g>`;
+  }else if(w.hold)g+=DRAW[w.hold];
+  const z=act==='sleep'?`<text class="zz" x="13" y="-1">z Z</text>`:'';
+  const cls={idle:'idle',jump:'jump',type:'type',sleep:'sleep',coffee:'idle'}[act];
+  return `<ellipse cx="7.5" cy="8.2" rx="6.5" ry=".7" fill="#0003"/><g class="pet ${cls}">${g}</g>${z}`;
+}
+function bars(){
+  const b=(n,v,c)=>`<div>${n} ${Math.round(v)}<div class="bar"><i style="width:${v}%;background:${c}"></i></div></div>`;
+  $('bars').innerHTML=b('🍪 饱食',S.hun,'#f0a64a')+b('💗 心情',S.mood,'#ee6c8e')+b('⚡ 精力',S.en,'#5aa9e6')+b(`⭐ 亲密 Lv.${lv()}`,(S.xp%20)*5,'#9a7be0');
+}
+function shop(){
+  $('shop').innerHTML=ITEMS.map(t=>{
+    const own=S.own[t.id],on=S.wear[t.s]===t.id;
+    return `<button class="${on?'on':''}" data-i="${t.id}">${t.i} ${t.n} ${own?(on?'· 已穿':'· 穿上'):'· 🪙'+t.p}</button>`}).join('');
+}
+function render(){
+  $('sv').innerHTML=draw();$('coin').textContent=S.coins;bars();shop();save();
+}
+function say(t){const b=$('bub');b.textContent=t;b.classList.add('on');clearTimeout(bubT);bubT=setTimeout(()=>b.classList.remove('on'),2600)}
+function doAct(a,ms){act=a;clearTimeout(actT);actT=setTimeout(()=>{act='idle';render()},ms);render()}
+function gain(x){const o=lv();S.xp+=x;if(lv()>o){S.coins+=10;say('升级啦！Lv.'+lv()+' 奖励 10🪙 🎉');doAct('jump',1800)}}
+const ACT={
+ feed(){S.hun=cl(S.hun+25);S.mood=cl(S.mood+3);gain(2);say(['咔嚓咔嚓…好吃！','饼干最棒啦～','还想再来一块！'][Math.random()*3|0]);doAct('jump',1400)},
+ play(){if(S.en<10)return say('好累…想先睡一会儿');S.mood=cl(S.mood+20);S.en=cl(S.en-10);S.hun=cl(S.hun-5);gain(3);say('蹦蹦跳跳！好开心！');doAct('jump',3000)},
+ sleep(){S.en=cl(S.en+30);say('呼…呼…');doAct('sleep',3500)},
+ work(){if(S.en<12)return say('没力气敲键盘了…');S.en=cl(S.en-12);S.mood=cl(S.mood-3);const c=6+(Math.random()*5|0);S.coins+=c;gain(3);say('哒哒哒…代码写好啦！+'+c+'🪙');doAct('type',3500)},
+ coffee(){if(S.coins<3)return say('金币不够买咖啡啦');S.coins-=3;S.en=cl(S.en+15);S.mood=cl(S.mood+5);say('咕嘟…精神了！');doAct('coffee',3000)}
+};
+document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>ACT[b.dataset.a]());
+$('emo').innerHTML=EMOS.map(e=>`<button data-e="${e[0]}">${e[1]}</button>`).join('');
+$('emo').onclick=ev=>{const k=ev.target.dataset.e;if(!k)return;emo={k,u:Date.now()+4000};setTimeout(render,4100);render()};
+$('shop').onclick=ev=>{
+  const t=ITEMS.find(x=>x.id===ev.target.dataset.i);if(!t)return;
+  if(!S.own[t.id]){if(S.coins<t.p)return say('金币不够，去打电脑赚一点～');S.coins-=t.p;S.own[t.id]=1;say('买到了'+t.n+'！');}
+  S.wear[t.s]=S.wear[t.s]===t.id?'':t.id;render();
+};
+$('sv').onclick=()=>{S.mood=cl(S.mood+6);gain(1);emo={k:'love',u:Date.now()+2000};setTimeout(render,2100);say(['嘿嘿～','摸摸～好舒服','最喜欢你啦'][Math.random()*3|0]);render()};
+$('nm').value=S.name;$('nm').oninput=e=>{S.name=e.target.value;save()};
+$('rs').onclick=()=>{if(!rsArm){rsArm=true;$('rs').textContent='再点一次确认重置';setTimeout(()=>{rsArm=false;$('rs').textContent='重置进度'},3000);return}
+  S=JSON.parse(JSON.stringify(DEF));$('nm').value=S.name;rsArm=false;$('rs').textContent='重置进度';render()};
+setInterval(()=>{if(act==='sleep')return;S.hun=cl(S.hun-2);S.en=cl(S.en-1);S.mood=cl(S.mood-(S.hun<30?3:1));if(S.hun<25&&Math.random()<.5)say('肚子咕咕叫…');render()},7000);
+setInterval(()=>{blink=true;render();setTimeout(()=>{blink=false;render()},160)},3600);
+render();
+</script>
+</body>
+</html>
